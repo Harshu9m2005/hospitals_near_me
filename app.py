@@ -1,22 +1,18 @@
-from flask import Flask, jsonify, render_template
+# app.py
+import streamlit as st
 import geocoder
 
-app = Flask(__name__)
+# Set up the page title and header
+st.title("Location Finder")
+st.header("Find your current location based on IP")
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+# Get the current location
+location = geocoder.ip('me')
 
-@app.route('/get-location')
-def get_location():
-    # Get current location using geocoder
-    location = geocoder.ip('me')
-    if location.latlng:
-        latitude = location.latlng[0]
-        longitude = location.latlng[1]
-        return jsonify({'latitude': latitude, 'longitude': longitude})
-    else:
-        return jsonify({'error': 'Unable to retrieve location'}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Display latitude and longitude
+if location.latlng:
+    latitude, longitude = location.latlng
+    st.write(f"**Latitude:** {latitude}")
+    st.write(f"**Longitude:** {longitude}")
+else:
+    st.write("Unable to retrieve location")
