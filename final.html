@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Nearest Hospital</title>
+    <style>
+        /* Style for the modal popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Find the Nearest Hospital</h1>
+    <button onclick="getLocation()">Find the nearest hospital to me</button>
+
+    <!-- Modal Popup -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="hospitalInfo">Hospital information will appear here.</p>
+            <button id="navigateButton">Navigate</button>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = 'pk.d8b5fcd6c41e5f8b1295d3648581f84e'; // Replace with your LocationIQ API key
+        const maxRadius = 50000; // Max radius of 50 km
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            findNearestHospital(latitude, longitude, 5000); // Start with 5 km radius
+        }
+
+        function error() {
+            alert("Unable to retrieve your location.");
+        }
+
+        function findNearestHospital(latitude, longitude, radius) {
+            const url = `https://us1.locationiq.com/v1/nearby.php?key=${apiKey}&lat=${latitude}&lon=${longitude}&tag=hospital&radius=${radius}&format=json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const nearestHospital = data[0];
+                        const address = nearestHospital.address;
+                        const addressText = `${address.road || ''}, ${address.city || ''}, ${address.state || ''}, ${address.country || ''}`;
+
+                        document.getElementById("hospitalInfo").innerText = `The nearest hospital is ${nearestHospital.name}, located at ${addressText}`;
+                        openModal(); // Open the popup with the hospital information
+                    } else if (radius < maxRadius) {
+                        findNearestHospital(latitude, longitude, radius + 5000); // Increase radius by 5 km
+                    } else {
+                        alert("No hospitals found within 50 km.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while fetching hospital data.");
+                });
+        }
+
+        // Function to open the modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
