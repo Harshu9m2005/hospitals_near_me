@@ -52,13 +52,14 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <p id="hospitalInfo">Hospital information will appear here.</p>
-            <button id="navigateButton">Navigate</button>
+            <button id="navigateButton" onclick="navigateToHospital()">Navigate</button>
         </div>
     </div>
 
     <script>
         const apiKey = 'pk.d8b5fcd6c41e5f8b1295d3648581f84e'; // Replace with your LocationIQ API key
         const maxRadius = 50000; // Max radius of 50 km
+        let userLatitude, userLongitude, hospitalLatitude, hospitalLongitude;
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -69,9 +70,9 @@
         }
 
         function success(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            findNearestHospital(latitude, longitude, 5000); // Start with 5 km radius
+            userLatitude = position.coords.latitude;
+            userLongitude = position.coords.longitude;
+            findNearestHospital(userLatitude, userLongitude, 5000); // Start with 5 km radius
         }
 
         function error() {
@@ -86,6 +87,8 @@
                 .then(data => {
                     if (data.length > 0) {
                         const nearestHospital = data[0];
+                        hospitalLatitude = nearestHospital.lat;
+                        hospitalLongitude = nearestHospital.lon;
                         const address = nearestHospital.address;
                         const addressText = `${address.road || ''}, ${address.city || ''}, ${address.state || ''}, ${address.country || ''}`;
 
@@ -120,6 +123,16 @@
                 closeModal();
             }
         };
+
+        // Function to navigate to the hospital using Google Maps
+        function navigateToHospital() {
+            if (userLatitude && userLongitude && hospitalLatitude && hospitalLongitude) {
+                const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${hospitalLatitude},${hospitalLongitude}&travelmode=driving`;
+                window.open(googleMapsUrl, '_blank');
+            } else {
+                alert("Unable to get location data for navigation.");
+            }
+        }
     </script>
 </body>
 </html>
