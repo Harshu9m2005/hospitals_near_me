@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitals Near Me</title>
+    <link rel="stylesheet" href="styles1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Account</h2>
+        <ul>
+            <li><i class="fas fa-hospital"></i> Hospitals Near Me</li>
+            <li><i class="fas fa-user"></i> Profile</li>
+            <li id="settingsBtn"><i class="fas fa-cog"></i> Settings</li>
+            <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>Welcome!</h2>
+        <button id="hospitalsBtn">Hospitals Near Me</button>
+    </div>
+
+    <!-- Settings Menu -->
+    <div class="settings-menu" id="settingsMenu">
+        <h3>Settings</h3>
+        <ul>
+            <li id="notificationsOption">Notifications</li>
+            <li id="privacyOption">Privacy</li>
+            <li id="helpOption">Help</li>
+        </ul>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closePrivacyModal">&times;</span>
+            <h2>Privacy Notice</h2>
+            <p>Your privacy is important to us. This privacy notice explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+<br>
+                1. Information We Collect<br>
+                Personal Information: We may collect personal information that you provide to us when you register, make a purchase, or contact us. This may include your name, email address, phone number, and payment information.
+                <br>
+                Usage Data: We collect information about how you use our website, including your IP address, browser type, access times, and pages viewed.
+                <br>
+                Cookies and Tracking Technologies: We use cookies and similar technologies to enhance your experience on our site. Cookies are small files stored on your device that help us recognize you and improve our services.
+                <br>
+                2. How We Use Your Information<br>
+                We may use the information we collect in the following ways:
+                <br>
+                To provide, operate, and maintain our website.<br>
+                To improve, personalize, and expand our services.<br>
+                To understand and analyze how you use our website.<br>
+                To communicate with you, including for customer service, updates, and marketing.<br>
+                To process your transactions and send you confirmation.<br>
+                3. Sharing Your Information<br>
+                We may share your information in the following situations:
+                <br>
+                With Service Providers: We may share your information with third-party vendors and service providers who perform services on our behalf.
+                <br>
+                For Business Transfers: We may share or transfer your information in connection with a merger, sale of company assets, financing, or acquisition of all or a portion of our business.
+                <br>
+                With Your Consent: We may disclose your personal information for any other purpose with your consent.
+                <br>
+                4. Security of Your Information<br>
+                We take reasonable measures to help protect your personal information from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction. However, no method of transmission over the internet or method of electronic storage is 100% secure, and we cannot guarantee its absolute security.
+                <br>
+                5. Your Rights<br>
+                Depending on your location, you may have certain rights regarding your personal information, including:
+                <br>
+                The right to access the personal information we hold about you.<br>
+                The right to request correction of inaccurate or incomplete information.<br>
+                The right to request deletion of your personal information.<br>
+                6. Changes to This Privacy Notice<br>
+                We may update this privacy notice from time to time. We will notify you of any changes by posting the new privacy notice on our website and updating the effective date at the top of this notice.
+                <br>
+                7. Contact Us<br>
+                If you have any questions about this privacy notice, please contact us at:
+                <br>
+                Email: theunifiedgeeks@gmail.com<br>
+                Phone: 9994200809<br></p>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeHelpModal">&times;</span>
+            <h2>Help</h2>
+            <p>Frequently Asked Questions (FAQs)<br>
+                1. How do I create an account?<br>
+                To create an account, click on the "Sign Up" button on the homepage. Fill in the required fields, including your name, email address, and password. Once you've submitted the form, check your email for a confirmation link to activate your account.
+                <br>
+                2. How do I reset my password?<br>
+                If you’ve forgotten your password, click on the "Forgot Password?" link on the login page. Enter your email address, and we’ll send you a link to create a new password.
+                <br>
+                3. How can I find hospitals near me?<br>
+                To find hospitals near you, click on the "Hospitals Near Me" button from your account dashboard. Ensure that your location services are enabled, and we’ll provide a list of nearby hospitals based on your current location.
+                <br>
+                4. How do I update my profile information?<br>
+                To update your profile information, log in to your account and navigate to the "Profile" section. Here, you can edit your name, contact information, and any other personal details.
+                <br>
+                5. How can I contact customer support?<br>
+                If you need further assistance, you can contact our customer support team via email at [support@yourcompany.com] or call us at [Your Contact Phone Number]. Our team is available [insert your customer support hours].
+                <br>
+                6. What should I do if I encounter a technical issue?<br>
+                If you experience any technical issues while using our website or app, please try clearing your browser cache or updating to the latest version of the app. If the problem persists, contact our support team with details of the issue, and we’ll assist you.
+                <br>
+                </p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle settings menu visibility
+        document.getElementById('settingsBtn').addEventListener('click', () => {
+            const settingsMenu = document.getElementById('settingsMenu');
+            settingsMenu.classList.toggle('visible');
+        });
+
+        // Show Privacy Modal
+        document.getElementById('privacyOption').addEventListener('click', () => {
+            document.getElementById('privacyModal').style.display = 'block';
+        });
+
+        // Show Help Modal
+        document.getElementById('helpOption').addEventListener('click', () => {
+            document.getElementById('helpModal').style.display = 'block';
+        });
+
+        // Close Privacy Modal
+        document.getElementById('closePrivacyModal').addEventListener('click', () => {
+            document.getElementById('privacyModal').style.display = 'none';
+        });
+
+        // Close Help Modal
+        document.getElementById('closeHelpModal').addEventListener('click', () => {
+            document.getElementById('helpModal').style.display = 'none';
+        });
+
+        // Close modals if clicking outside of them
+        window.onclick = (event) => {
+            if (event.target == document.getElementById('privacyModal')) {
+                document.getElementById('privacyModal').style.display = 'none';
+            }
+            if (event.target == document.getElementById('helpModal')) {
+                document.getElementById('helpModal').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
